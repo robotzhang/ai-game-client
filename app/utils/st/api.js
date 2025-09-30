@@ -1,4 +1,4 @@
-import axios from "axios";
+import { ofetch } from "ofetch";
 import { buildGenerateParams } from "./chat";
 
 const ST_API_ENDPOINT = 'http://127.0.0.1:8000';
@@ -7,15 +7,20 @@ const ST_API_ENDPOINT = 'http://127.0.0.1:8000';
 export async function fetchWorldBook({ name }) {
   if (!name) return null;
   //
-  const response = await axios.post(`${ST_API_ENDPOINT}/api/worldinfo/get`, {
-    name: `${name}世界书`,
+  const response = await ofetch(`${ST_API_ENDPOINT}/api/worldinfo/get`, {
+    method: 'POST',
+    body: {
+      name: `${name}世界书`,
+    },
   });
   return response.data;
 }
 
 //
 export async function fetchAllCharacters() {
-  const response = await axios.post(`http://127.0.0.1:8000/api/characters/all`);
+  const response = await ofetch(`${ST_API_ENDPOINT}/api/characters/all`, {
+    method: 'POST'
+  });
   return response.data;
 }
 
@@ -23,8 +28,11 @@ export async function fetchAllCharacters() {
 export async function fetchCharacter({ avatarUrl }) {
   if (!avatarUrl) return null;
   //
-  const response = await axios.post(`${ST_API_ENDPOINT}/api/characters/get`, {
-    avatar_url: avatarUrl
+  const response = await ofetch(`${ST_API_ENDPOINT}/api/characters/get`, {
+    method: 'POST',
+    body: {
+      avatar_url: avatarUrl,
+    },
   });
   return response.data;
 }
@@ -32,6 +40,9 @@ export async function fetchCharacter({ avatarUrl }) {
 // 生成对话
 export async function generate({ character, historyMessages, user }) {
   const params = buildGenerateParams({ character, historyMessages, user });
-  const response = await axios.post(`${ST_API_ENDPOINT}/api/backends/chat-completions/generate`, params);
+  const response = await ofetch(`${ST_API_ENDPOINT}/api/backends/chat-completions/generate`, {
+    method: 'POST',
+    body: params,
+  });
   return response.data;
 }
