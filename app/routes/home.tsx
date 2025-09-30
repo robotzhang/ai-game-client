@@ -1,5 +1,12 @@
+import { Link } from "react-router";
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+
+interface Character {
+  avatar: string;
+  name: string;
+  description: string;
+  // 其他字段可以根据返回的 JSON 扩展
+}
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,10 +15,11 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export function loader({ context }: Route.LoaderArgs) {
-  return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
-}
-
-export default function Home({ loaderData }: Route.ComponentProps) {
-  return <Welcome message={loaderData.message} />;
+export default function Home() {
+  //
+  return (
+    <div className="p-4">
+      <Link to="/characters">所有角色</Link>
+    </div>
+  );
 }
