@@ -5,4 +5,7 @@ export default {
   future: {
     unstable_viteEnvironmentApi: true,
   },
+  async prerender() { // SSG
+    return ['about'];
+  },
 } satisfies Config;
